@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/jackcompton/penthouse.git#master"
+    "url": "git://github.com/pocketjoso/penthouse.git#master"
   },
   "bugs": {
     "url": "https://github.com/pocketjoso/penthouse/issues"
