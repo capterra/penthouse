@@ -25,7 +25,7 @@ async function loadPage (page, url, timeout, pageLoadSkipTimeout) {
   let waitingForPageLoad = true
   const loadPagePromise = page.goto(url, { timeout: timeout + 1000 })
   if (pageLoadSkipTimeout) {
-    await Promise.race([
+    let response = await Promise.race([
       loadPagePromise,
       new Promise(resolve => {
         // instead we manually _abort_ page load after X time,
@@ -45,8 +45,18 @@ async function loadPage (page, url, timeout, pageLoadSkipTimeout) {
         }, pageLoadSkipTimeout)
       })
     ])
+    if (response && response.status && ![200].includes(response.status)) {
+      throw new Error(
+        `page responsed with disallowed status ${response.status}`
+      )
+    }
   } else {
-    await loadPagePromise
+    let response = await loadPagePromise
+    if (response && response.status && ![200].includes(response.status)) {
+      throw new Error(
+        `page responsed with disallowed status ${response.status}`
+      )
+    }
   }
   waitingForPageLoad = false
   debuglog('page load DONE')
