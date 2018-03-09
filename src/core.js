@@ -45,14 +45,14 @@ async function loadPage (page, url, timeout, pageLoadSkipTimeout) {
         }, pageLoadSkipTimeout)
       })
     ])
-    if (response && response.status && ![200].includes(response.status)) {
+    if (response && response.status && ![200, 301].includes(response.status)) {
       throw new Error(
         `page responsed with disallowed status ${response.status}`
       )
     }
   } else {
     let response = await loadPagePromise
-    if (response && response.status && ![200].includes(response.status)) {
+    if (response && response.status && ![200, 301].includes(response.status)) {
       throw new Error(
         `page responsed with disallowed status ${response.status}`
       )
